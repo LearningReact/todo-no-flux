@@ -1,11 +1,10 @@
 import React from 'react';
+import Task from './Task.jsx';
 
 module.exports = React.createClass({
   render () {
     var tasks = this.props.tasks.map((item => {
-      return <li className={'item ' + (item.completed ? 'completed' : '')} key={item.id} onClick={this.handleClick.bind(null, item.id)}>
-        {item.task}
-      </li>
+      return <Task item={item} onToggleCompletion={this.props.onToggleCompletion} />
     }));
 
     return (
@@ -13,9 +12,5 @@ module.exports = React.createClass({
         {tasks}
       </ul>
     );
-  },
-
-  handleClick (id) {
-    this.props.onToggleCompletion(id);
   }
 });
