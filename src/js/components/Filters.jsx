@@ -1,13 +1,14 @@
 import React from 'react';
+import {ALL, ACTIVE, COMPLETED} from '../constants.js';
 
 module.exports = React.createClass({
   render () {
     return (
       <div>
         <div>{this.renderItemCount()}</div>
-        <button onClick={this.handleClick.bind(null, 'all')}>All</button>
-        <button onClick={this.handleClick.bind(null, 'active')}>Active</button>
-        <button onClick={this.handleClick.bind(null, 'completed')}>Completed</button>
+        <button onClick={this.handleClick.bind(null, ALL)}>All</button>
+        <button onClick={this.handleClick.bind(null, ACTIVE)}>Active</button>
+        <button onClick={this.handleClick.bind(null, COMPLETED)}>Completed</button>
         <button onClick={this.handleClear}>Clear Completed</button>
       </div>
     )

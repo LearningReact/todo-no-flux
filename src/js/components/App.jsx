@@ -5,15 +5,13 @@ import Tasks from './Tasks.jsx';
 import AddTask from './AddTask.jsx';
 import Filters from './Filters.jsx';
 
+import {ALL, COMPLETED, ACTIVE} from '../constants.js';
+
 // Can pretend this data came from some external source
 var tasks = [
   {id: 1, task: 'Take out trash', completed: false},
   {id: 2, task: 'Walk the cat', completed: false}
 ];
-
-const ALL = 'all';
-const COMPLETED = 'completed';
-const ACTIVE = 'active';
 
 module.exports = React.createClass({
   getInitialState () {
