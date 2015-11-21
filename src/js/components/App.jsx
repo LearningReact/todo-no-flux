@@ -27,7 +27,7 @@ module.exports = React.createClass({
     return (
       <div>
         <h1>Todo App</h1>
-        <Filters onChangeFilter={this.changeFilter} />
+        <Filters onChangeFilter={this.changeFilter} onClearCompleted={this.clearCompleted} />
         <Tasks tasks={this.getTasks()} onToggleCompletion={this.handleToggleCompletion} />
         <AddTask onAddTask={this.handleAddTask} />
       </div>
@@ -93,6 +93,15 @@ module.exports = React.createClass({
   changeFilter (filterType) {
     this.setState({
       showing: filterType
+    });
+  },
+
+  clearCompleted () {
+    var updatedTasks = this.state.tasks.filter((task) => {
+      return task.completed === false;
+    });
+    this.setState({
+      tasks: updatedTasks
     });
   }
 });
