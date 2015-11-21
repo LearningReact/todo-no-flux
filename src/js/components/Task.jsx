@@ -11,14 +11,14 @@ module.exports = React.createClass({
     var item = this.props.item;
     return (
       <li
-        className={'item ' + (item.completed ? 'completed' : '')}
+        className='item'
         key={item.id}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         >
           <span
             onClick={this.handleClick.bind(null, item.id)}
-            className='item-text'>
+            className={'item-text ' + (item.completed ? 'completed' : '')}>
             {item.task}
           </span>
           {this.renderDelete()}

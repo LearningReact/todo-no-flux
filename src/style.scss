@@ -18,9 +18,10 @@ $item-border: 1px solid #ccc;
     position: absolute;
     right: 20px;
   }
+
+  .completed {
+    text-decoration: line-through;
+    color: #ccc;
+  }
 }
 
-.completed {
-  text-decoration: line-through;
-  color: #ccc;
-}
