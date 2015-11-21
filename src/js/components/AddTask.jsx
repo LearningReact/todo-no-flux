@@ -18,8 +18,6 @@ module.exports = React.createClass({
   },
 
   renderInputArea () {
-    var handleAddTask = this.handleAddTask.bind(null, this.state.task);
-
     if (this.state.showing) {
       return (
         <div>
@@ -29,7 +27,7 @@ module.exports = React.createClass({
             onKeyPress={this.handleKeyPress}
             value={this.state.task}
           />
-          <button onClick={handleAddTask}>Add Task</button>
+          <button onClick={this.handleAddTask}>Add Task</button>
           <button onClick={this.handleCancel}>Cancel</button>
         </div>
       )
@@ -49,8 +47,9 @@ module.exports = React.createClass({
     })
   },
 
-  handleAddTask (task) {
+  handleAddTask () {
     // Use the callback provided by <App />
+    var task = this.state.task;
     if (task) {
       this.props.onAddTask(task);
       this.setState({
