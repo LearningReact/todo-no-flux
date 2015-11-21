@@ -12,7 +12,7 @@ module.exports = React.createClass({
     return (
       <div>
         {this.renderInputArea()}
-        <a onClick={this.handleClick} href="">Add Task</a>
+        <a onClick={this.handleClick}>Add Task</a>
       </div>
     )
   },
@@ -26,7 +26,7 @@ module.exports = React.createClass({
             onChange={this.handleChange}
             value={this.state.task}
           />
-          <button>Add Task</button>
+          <button onClick={this.handleAddTask.bind(null, this.state.task)}>Add Task</button>
           <button onClick={this.handleCancel}>Cancel</button>
         </div>
       )
@@ -44,6 +44,11 @@ module.exports = React.createClass({
     this.setState({
       showing: true
     })
+  },
+
+  handleAddTask (task) {
+    // Use the callback provided by <App />
+    this.props.onAddTask(task);
   },
 
   handleCancel () {
