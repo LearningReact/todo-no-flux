@@ -19,7 +19,8 @@ module.exports = React.createClass({
   getInitialState () {
     return {
       tasks: tasks,
-      showing: ACTIVE
+      showing: ACTIVE,
+      numTasks: tasks.length
     };
   },
 
@@ -27,7 +28,11 @@ module.exports = React.createClass({
     return (
       <div>
         <h1>Todo App</h1>
-        <Filters onChangeFilter={this.changeFilter} onClearCompleted={this.clearCompleted} />
+        <Filters
+          onChangeFilter={this.changeFilter}
+          onClearCompleted={this.clearCompleted}
+          itemsRemaining={this.state.numTasks}
+        />
         <Tasks tasks={this.getTasks()} onToggleCompletion={this.handleToggleCompletion} />
         <AddTask onAddTask={this.handleAddTask} />
       </div>
@@ -41,7 +46,8 @@ module.exports = React.createClass({
       completed: false
     };
     this.setState({
-      tasks: this.state.tasks.concat([newTask])
+      tasks: this.state.tasks.concat([newTask]),
+      numTasks: this.state.numTasks + 1
     });
   },
 
@@ -57,10 +63,19 @@ module.exports = React.createClass({
       completed: !taskToUpdate.completed
     });
 
+    // Update the count of tasks remaining, depending on toggle
+    var updatedCount;
+    if (!taskToUpdate.completed === false) {
+      updatedCount = this.state.numTasks + 1;
+    } else {
+      updatedCount = this.state.numTasks - 1;
+    }
+
     // Concatentate remaining tasks
     tasks = tasks.concat(this.state.tasks.slice(taskIndex+1));
     this.setState({
-      tasks: tasks
+      tasks: tasks,
+      numTasks: updatedCount
     })
   },
 
