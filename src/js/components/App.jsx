@@ -1,5 +1,6 @@
 import React from 'react';
 import uuid from 'node-uuid';
+import request from 'microajax';
 
 import Tasks from './Tasks.jsx';
 import AddTask from './AddTask.jsx';
@@ -7,19 +8,24 @@ import Filters from './Filters.jsx';
 
 import {ALL, COMPLETED, ACTIVE} from '../constants.js';
 
-// Can pretend this data came from some external source
-var tasks = [
-  {id: 1, task: 'Take out trash', completed: false},
-  {id: 2, task: 'Walk the cat', completed: false}
-];
-
 module.exports = React.createClass({
   getInitialState () {
     return {
-      tasks: tasks,
+      tasks: [],
       showing: ACTIVE,
-      numTasks: tasks.length
+      numTasks: 0
     };
+  },
+
+  // After the component has mounted, perform an AJAX call and update state
+  componentDidMount () {
+    request('data.json', (res) => {
+      var tasks = JSON.parse(res.response);
+      this.setState({
+        tasks: tasks,
+        numTasks: tasks.length
+      });
+    });
   },
 
   render () {
