@@ -83,11 +83,22 @@ module.exports = React.createClass({
 
   handleDeleteTask (id) {
     var taskIndex = this.findTask(id);
+    var taskToDelete = this.state.tasks[taskIndex];
+
+    // Only want to subtract number of tasks remaining if
+    // task deleted was not already completed
+    var updatedNumTasks;
+    if (taskToDelete.completed) {
+      updatedNumTasks = this.state.numTasks;
+    } else {
+      updatedNumTasks = this.state.numTasks - 1;
+    }
+
     var tasks = this.state.tasks.slice(0, taskIndex)
                     .concat(this.state.tasks.slice(taskIndex+1));
     this.setState({
       tasks: tasks,
-      numTasks: this.state.numTasks - 1
+      numTasks: updatedNumTasks
     });
   },
 
