@@ -31,7 +31,11 @@ module.exports = React.createClass({
           onClearCompleted={this.clearCompleted}
           itemsRemaining={this.state.numTasks}
         />
-        <Tasks tasks={this.getTasks()} onToggleCompletion={this.handleToggleCompletion} />
+        <Tasks
+          tasks={this.getTasks()}
+          onToggleCompletion={this.handleToggleCompletion}
+          onDeleteTask={this.handleDeleteTask}
+        />
         <AddTask onAddTask={this.handleAddTask} />
       </div>
     );
@@ -75,6 +79,16 @@ module.exports = React.createClass({
       tasks: tasks,
       numTasks: updatedCount
     })
+  },
+
+  handleDeleteTask (id) {
+    var taskIndex = this.findTask(id);
+    var tasks = this.state.tasks.slice(0, taskIndex)
+                    .concat(this.state.tasks.slice(taskIndex+1));
+    this.setState({
+      tasks: tasks,
+      numTasks: this.state.numTasks - 1
+    });
   },
 
   findTask (id) {
