@@ -3,6 +3,7 @@ import uuid from 'node-uuid';
 
 import Tasks from './Tasks.jsx';
 import AddTask from './AddTask.jsx';
+import Filters from './Filters.jsx';
 
 // Can pretend this data came from some external source
 var tasks = [
@@ -10,10 +11,15 @@ var tasks = [
   {id: 2, task: 'Walk the cat', completed: false}
 ];
 
+const ALL = 'all';
+const COMPLETED = 'completed';
+const ACTIVE = 'active';
+
 module.exports = React.createClass({
   getInitialState () {
     return {
-      tasks: tasks
+      tasks: tasks,
+      showing: ACTIVE
     };
   },
 
@@ -21,7 +27,8 @@ module.exports = React.createClass({
     return (
       <div>
         <h1>Todo App</h1>
-        <Tasks tasks={this.state.tasks} onToggleCompletion={this.handleToggleCompletion} />
+        <Filters onChangeFilter={this.changeFilter} />
+        <Tasks tasks={this.getTasks()} onToggleCompletion={this.handleToggleCompletion} />
         <AddTask onAddTask={this.handleAddTask} />
       </div>
     );
@@ -65,5 +72,27 @@ module.exports = React.createClass({
       }
     }
     throw new Error('unable to find task with id', id);
+  },
+
+  getTasks () {
+    if (this.state.showing === ALL) {
+      return this.state.tasks;
+    }
+    if (this.state.showing === ACTIVE) {
+      return this.state.tasks.filter((task) => {
+        return task.completed === false;
+      });
+    }
+    if (this.state.showing === COMPLETED) {
+      return this.state.tasks.filter((task) => {
+        return task.completed === true;
+      });
+    }
+  },
+
+  changeFilter (filterType) {
+    this.setState({
+      showing: filterType
+    });
   }
 });
