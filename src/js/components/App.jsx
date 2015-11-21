@@ -6,8 +6,8 @@ import AddTask from './AddTask.jsx';
 
 // Can pretend this data came from some external source
 var tasks = [
-  {id: 1, task: 'Take out trash'},
-  {id: 2, task: 'Walk the cat'}
+  {id: 1, task: 'Take out trash', completed: false},
+  {id: 2, task: 'Walk the cat', completed: false}
 ];
 
 module.exports = React.createClass({
@@ -21,7 +21,7 @@ module.exports = React.createClass({
     return (
       <div>
         <h1>Todo App</h1>
-        <Tasks tasks={this.state.tasks} />
+        <Tasks tasks={this.state.tasks} onToggleCompletion={this.handleToggleCompletion} />
         <AddTask onAddTask={this.handleAddTask} />
       </div>
     );
@@ -30,10 +30,40 @@ module.exports = React.createClass({
   handleAddTask (task) {
     var newTask = {
       id: uuid.v4(),
-      task: task
+      task: task,
+      completed: false
     };
     this.setState({
       tasks: this.state.tasks.concat([newTask])
     });
+  },
+
+  handleToggleCompletion (id) {
+    var taskIndex = this.findTask(id);
+    var tasks = this.state.tasks.slice(0, taskIndex);
+
+    // Add updated task
+    var taskToUpdate = this.state.tasks[taskIndex];
+    tasks.push({
+      id: taskToUpdate.id,
+      task: taskToUpdate.task,
+      completed: !taskToUpdate.completed
+    });
+
+    // Concatentate remaining tasks
+    tasks = tasks.concat(this.state.tasks.slice(taskIndex+1));
+    this.setState({
+      tasks: tasks
+    })
+  },
+
+  findTask (id) {
+    var tasks = this.state.tasks;
+    for (var i = 0; i < tasks.length; i++) {
+      if (tasks[i].id === id) {
+        return i;
+      }
+    }
+    throw new Error('unable to find task with id', id);
   }
 });
