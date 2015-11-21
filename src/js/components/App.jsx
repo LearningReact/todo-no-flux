@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'node-uuid';
 
 import Tasks from './Tasks.jsx';
 import AddTask from './AddTask.jsx';
@@ -28,7 +29,7 @@ module.exports = React.createClass({
 
   handleAddTask (task) {
     var newTask = {
-      id: 3,
+      id: uuid.v4(),
       task: task
     };
     this.setState({

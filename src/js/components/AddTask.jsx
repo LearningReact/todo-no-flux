@@ -49,6 +49,9 @@ module.exports = React.createClass({
   handleAddTask (task) {
     // Use the callback provided by <App />
     this.props.onAddTask(task);
+    this.setState({
+      task: ''
+    });
   },
 
   handleCancel () {
